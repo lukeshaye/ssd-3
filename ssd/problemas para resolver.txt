@@ -1,4 +1,4 @@
-appointments.tsx 
+appointments.tsx
 
 a agenda de exibição dos dias de hoje está em inglês o titulo dos dia.
 Precisamos corrigir o problema do modal de criação de novo cliente.
@@ -19,7 +19,8 @@ ProfessionalDetail.tsx
 A "visão geral" pode ser melhorada os gráficos dos cards "Serviços Mais Realizados" e "Clientes Mais Frequentes".
 A aba "Faltas" pode ter o calendário melhorado usando o nosso modal de calendário usado em todas as páginas como o do appointments.tsx, financial.tsx, etc. E precisa melhorar a formatação da div do "Registrar Nova Falta" tanto para desktop quanto para mobile.
 Na aba "Financeiro" precisamos corrigir para deixar tudo 100% brasileiro para não acontecer esse tipo de erro "Resumo Financeiro - October de 2025" onde tudo está em português mas o mês está em inglês dizendo "October".
-Na Aba "Horários" é a que precisamos mexer mais, precisamos melhorar a formatação de todas as divs para todos os dispositivos, trocar aquel calendário simples para nosso calendário melhor que usamos em todas as outras páginas, adicionar um botão para replicar todos os horários para o usuário não precisar digitar tudo igual em todos os campos, vamos adicionar um checklist para o usuário marcar ao lado dos dias para significar os dias que o profissionar vai trabalhar e o botão de replicar horários só vai funcionar nos dias com checklist marcado, o resto deixa o valor nulo que significa fechado, 
+Na Aba "Horários" é a que precisamos mexer mais, precisamos melhorar a formatação de todas as divs para todos os dispositivos, trocar aquel calendário simples para nosso calendário melhor que usamos em todas as outras páginas, adicionar um botão para replicar todos os horários para o usuário não precisar digitar tudo igual em todos os campos, vamos adicionar um checklist para o usuário marcar ao lado dos dias para significar os dias que o profissionar vai trabalhar e o botão de replicar horários só vai funcionar nos dias com checklist marcado, o resto deixa o valor nulo que significa fechado,
+
 
 que ele não vai trabalhar, precisamos melhorar a div "Registrar Férias/Folga" melhorar a formatação para mobile e desktop, atualmente estão misturados e tem um icone de "+" e um botão, os 2 com a mesma função.
 Settings.tsx
@@ -36,7 +37,18 @@ Usar rotas de API (após criá-las) ofereceria melhor abstração.
 Configuração (vite.config.ts): A configuração do proxy para API está hardcoded para 'http://127.0.0.1:8788', pode precisar de ajuste se o ambiente de desenvolvimento mudar.
 Backend (src/worker/index.ts): Ausência de rotas `PUT` e `DELETE` para `/api/settings/exceptions`, impedindo a atualização ou exclusão de exceções de horário do estabelecimento via API.
 Banco de Dados (migrations/15.sql): A função `get_professional_stats` criada na migração 15 não é utilizada no backend (`src/worker/index.ts`), sendo potencialmente código morto ou uma funcionalidade inacabada.
-Frontend/Tipos/DB (Services.tsx, types.ts, migrations/): Inconsistência total no campo `image_url` para Serviços. Ele existe no frontend, mas falta no schema Zod (`ServiceSchema`) e na tabela `services` do banco de dados.
+Frontend/Tipos/DB (Services.tsx, types.ts, migrations/): Inconsistência total no campo `image_url` para Serviços.
+Ele existe no frontend, mas falta no schema Zod (`ServiceSchema`) e na tabela `services` do banco de dados.
 Frontend (Geral): Uso misto de bibliotecas (`moment`) e funções nativas (`toLocaleString`) para formatação de datas, junto com o sistema de localização do PrimeReact, pode gerar inconsistências na exibição de datas/horas.
 Testes (src/test/): Cobertura de testes unitários limitada, não abrangendo lógica crucial das páginas, componentes complexos ou rotas do backend.
 Frontend/Formulário (ClientFormModal.tsx, types.ts): O campo opcional `birth_date` no `ClientSchema` está se comportando como obrigatório no formulário, possivelmente devido à interação entre PrimeReact `Calendar` e `react-hook-form` com valores nulos/vazios.
+
+--- NOVOS PROBLEMAS IDENTIFICADOS ---
+
+Frontend (`SupabaseAuthProvider.tsx`): Tela em branco potencial durante o carregamento inicial da sessão se houver falha ou lentidão na autenticação.
+Frontend (`ProfessionalDetail.tsx`): Busca de dados ineficiente ao mudar período de análise (recarrega todos os dados, não apenas agendamentos).
+Frontend (`store.ts`): Falhas na busca de dados na store são apenas registradas no console, não notificadas ao usuário (falhas silenciosas).
+Backend/Frontend (`Dashboard.tsx`): Lógica de criação/deleção de entrada financeira atrelada à presença do agendamento está no frontend, arriscando inconsistência de dados se uma das operações falhar.
+PWA (`sw.js`): Complexidade das estratégias de cache pode levar a dados obsoletos (stale) em cenários offline ou de rede instável sem notificação clara ao usuário.
+DB (Migrations 3 & 4): Possível redundância ou falta de clareza na ordem/conteúdo das migrações 3 e 4, dificultando o acompanhamento do histórico do schema.
+Frontend (`Layout.tsx`): Dependência do serviço externo `ui-avatars.com` para avatares fallback.
