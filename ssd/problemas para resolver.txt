@@ -52,3 +52,17 @@ Backend/Frontend (`Dashboard.tsx`): Lógica de criação/deleção de entrada fi
 PWA (`sw.js`): Complexidade das estratégias de cache pode levar a dados obsoletos (stale) em cenários offline ou de rede instável sem notificação clara ao usuário.
 DB (Migrations 3 & 4): Possível redundância ou falta de clareza na ordem/conteúdo das migrações 3 e 4, dificultando o acompanhamento do histórico do schema.
 Frontend (`Layout.tsx`): Dependência do serviço externo `ui-avatars.com` para avatares fallback.
+
+--- NOVOS PROBLEMAS IDENTIFICADOS (NÃO INCLUÍDOS NO ARQUIVO ORIGINAL) ---
+
+Tratamento de Erros no Backend (src/worker/index.ts): Tratamento de erros de banco de dados mínimo; falhas podem não retornar erros claros ou travar rotas. Rotas PUT/DELETE podem retornar sucesso mesmo se o ID não for encontrado.
+Validação de Entrada Duplicada (src/worker/index.ts): Ausência de validação no backend para evitar nomes duplicados (clientes, produtos, serviços, profissionais) para o mesmo usuário.
+Segurança/Autorização (src/worker/index.ts): Garantir que *todas* as rotas que acessam recursos por ID (incluindo GET por ID, se existirem) incluam a verificação `user_id = ?`.
+Consistência de Nomenclatura no Backend (src/worker/index.ts): Pequenas inconsistências nos padrões de rotas (ex: financeiro vs. profissionais).
+Tipos vs. Banco de Dados (src/shared/types.ts, migrations/): Campos `work_start_time`, `work_end_time`, `lunch_start_time`, `lunch_end_time` existem na tabela `professionals` (migração 12) mas faltam no `ProfessionalSchema` em `types.ts`.
+Gerenciamento de Estado (Zustand - src/shared/store.ts): Funções `fetch*` podem deixar o estado de `loading` como `true` indefinidamente se ocorrer um erro durante a busca, pois `setLoading(false)` só é chamado em caso de sucesso. Usar `finally`.
+Service Worker (public/sw.js): Estratégia `staleWhileRevalidate` pode servir conteúdo desatualizado silenciosamente se a atualização falhar. Função `doBackgroundSync` vazia (funcionalidade não implementada). Tratamento de erros de cache apenas loga no console.
+Configuração do PrimeReact (src/react-app/main.tsx): Tema `lara-light-indigo` importado pode conflitar com o sistema de temas Tailwind/CSS Variables. Idealmente usar tema "unstyled" ou garantir overrides completos.
+Uso de Dependências (package.json, código): Uso de `moment.js` (em manutenção) junto com `date-fns`. Considerar padronizar para `date-fns` ou API `Intl` nativa. Verificar versões das dependências.
+Acessibilidade: Revisão completa de acessibilidade (atributos ARIA, contraste de cores nos temas, navegação por teclado) provavelmente necessária.
+Código Morto/Inacabado: Função SQL `get_professional_stats` não utilizada (item 24 dos problemas originais). Verificar por outros códigos não utilizados.
