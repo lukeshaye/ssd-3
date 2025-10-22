@@ -1,0 +1,24 @@
+appointments.tsx 
+
+a agenda de exibição dos dias de hoje está em inglês o titulo dos dia.
+Precisamos corrigir o problema do modal de criação de novo cliente. O campo de "Data de nascimento" está despropicional em relação ao segundo campo chamado "Gênero", o segundo está maior que o primeiro e como estão 1 do lado do outro cria essa assimetria que atrapalha na UX.
+
+Services.tsx
+
+Não está funcionando a funcionalidade de imagens, não salva e não exibe a partir da URL.
+
+Clients.tsx
+
+Está com o mesmo problema no modal do appoinments.tsx por usarem o mesmo componente e não aceita datas nulas, se o usuário apenas clicar no campo e não digitar nada e depois preecher outro campo ele não vai conseguir salvar porque a data nula que ele deixou estará impedindo. Acaba que a data de nascimento virou obrigatória, o cliente nem preenche nada mas impede de criar e editar clientes.
+
+Professionals.tsx
+
+Está com problemas em criar os profissionais. O botão não funciona e mostra "Formato de cor inválido." isso eu acho que pode ser devido a um bug de duplo "#" do seletor e da formatação.
+
+ProfessionalDetail.tsx
+
+A "visão geral" pode ser melhorada os gráficos dos cards "Serviços Mais Realizados" e "Clientes Mais Frequentes". A aba "Faltas" pode ter o calendário melhorado usando o nosso modal de calendário usado em todas as páginas como o do appointments.tsx, financial.tsx, etc. E precisa melhorar a formatação da div do "Registrar Nova Falta" tanto para desktop quanto para mobile. Na aba "Financeiro" precisamos corrigir para deixar tudo 100% brasileiro para não acontecer esse tipo de erro "Resumo Financeiro - October de 2025" onde tudo está em português mas o mês está em inglês dizendo "October". Na Aba "Horários" é a que precisamos mexer mais, precisamos melhorar a formatação de todas as divs para todos os dispositivos, trocar aquel calendário simples para nosso calendário melhor que usamos em todas as outras páginas, adicionar um botão para replicar todos os horários para o usuário não precisar digitar tudo igual em todos os campos, vamos adicionar um checklist para o usuário marcar ao lado dos dias para significar os dias que o profissionar vai trabalhar e o botão de replicar horários só vai funcionar nos dias com checklist marcado, o resto deixa o valor nulo que significa fechado, que ele não vai trabalhar, precisamos melhorar a div "Registrar Férias/Folga" melhorar a formatação para mobile e desktop, atualmente estão misturados e tem um icone de "+" e um botão, os 2 com a mesma função.
+
+Settings.tsx
+
+Vamos adicionar a mesma lógica de checklist que criamos no "ProfessionalDetail.tsx" para a funcionalidade de horário. Tanto essa página "Settings.tsx" quanto na aba "Horários" do ProfessionalDetail.tsx devem ter a lógica, formatação, funcionalidades, etc, iguais para facilitar para o usuário e melhorar a UI e UX.
