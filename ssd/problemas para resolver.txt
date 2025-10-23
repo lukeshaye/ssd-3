@@ -1,20 +1,21 @@
-appointments.tsx
+1 - appointments.tsx
 
 a agenda de exibição dos dias de hoje está em inglês o titulo dos dia.
 Precisamos corrigir o problema do modal de criação de novo cliente.
 O campo de "Data de nascimento" está despropicional em relação ao segundo campo chamado "Gênero", o segundo está maior que o primeiro e como estão 1 do lado do outro cria essa assimetria que atrapalha na UX.
-Services.tsx
+
+2 - Services.tsx
 
 Não está funcionando a funcionalidade de imagens, não salva e não exibe a partir da URL.
-Clients.tsx
+3- Clients.tsx
 
 Está com o mesmo problema no modal do appoinments.tsx por usarem o mesmo componente e não aceita datas nulas, se o usuário apenas clicar no campo e não digitar nada e depois preecher outro campo ele não vai conseguir salvar porque a data nula que ele deixou estará impedindo.
 Acaba que a data de nascimento virou obrigatória, o cliente nem preenche nada mas impede de criar e editar clientes.
-Professionals.tsx
+4 - Professionals.tsx
 
 Está com problemas em criar os profissionais. O botão não funciona e mostra "Formato de cor inválido."
 isso eu acho que pode ser devido a um bug de duplo "#" do seletor e da formatação.
-ProfessionalDetail.tsx
+5 - ProfessionalDetail.tsx
 
 A "visão geral" pode ser melhorada os gráficos dos cards "Serviços Mais Realizados" e "Clientes Mais Frequentes".
 A aba "Faltas" pode ter o calendário melhorado usando o nosso modal de calendário usado em todas as páginas como o do appointments.tsx, financial.tsx, etc. E precisa melhorar a formatação da div do "Registrar Nova Falta" tanto para desktop quanto para mobile.
@@ -27,42 +28,43 @@ Settings.tsx
 
 Vamos adicionar a mesma lógica de checklist que criamos no "ProfessionalDetail.tsx" para a funcionalidade de horário.
 Tanto essa página "Settings.tsx" quanto na aba "Horários" do ProfessionalDetail.tsx devem ter a lógica, formatação, funcionalidades, etc, iguais para facilitar para o usuário e melhorar a UI e UX.
-Backend (src/worker/index.ts): Ausência de rotas de API para Serviços (CRUD).
-A gestão de serviços está sendo feita diretamente no frontend pela store, inconsistente com outras entidades como Clientes/Produtos.
-Tipos Compartilhados (src/shared/types.ts): O ServiceSchema não inclui 'image_url' (usado no frontend) nem 'color' (adicionado na migração 11).
-Lógica de Cálculo (src/worker/index.ts): O cálculo do Ticket Médio (/api/dashboard/kpis) pode estar incorreto, pois divide ganhos (baseados em 'attended: true') pelo total de agendamentos (incluindo não comparecimentos).
-Temas (src/react-app/main.tsx, src/react-app/index.css): Potencial conflito entre o tema base do PrimeReact (lara-light-indigo) e o sistema de temas customizados do Tailwind, podendo causar inconsistências visuais em componentes PrimeReact não explicitamente reestilizados.
-Arquitetura (src/shared/store.ts): A store faz chamadas diretas ao Supabase no frontend, acoplando a store à implementação do backend.
+6 - Backend (src/worker/index.ts): Ausência de rotas de API para Serviços (CRUD).
+7 - A gestão de serviços está sendo feita diretamente no frontend pela store, inconsistente com outras entidades como Clientes/Produtos.
+8 - Tipos Compartilhados (src/shared/types.ts): O ServiceSchema não inclui 'image_url' (usado no frontend) nem 'color' (adicionado na migração 11).
+9 - Lógica de Cálculo (src/worker/index.ts): O cálculo do Ticket Médio (/api/dashboard/kpis) pode estar incorreto, pois divide ganhos (baseados em 'attended: true') pelo total de agendamentos (incluindo não comparecimentos).
+10 - Temas (src/react-app/main.tsx, src/react-app/index.css): Potencial conflito entre o tema base do PrimeReact (lara-light-indigo) e o sistema de temas customizados do Tailwind, podendo causar inconsistências visuais em componentes PrimeReact não explicitamente reestilizados.
+11 - Arquitetura (src/shared/store.ts): A store faz chamadas diretas ao Supabase no frontend, acoplando a store à implementação do backend.
 Usar rotas de API (após criá-las) ofereceria melhor abstração.
-Configuração (vite.config.ts): A configuração do proxy para API está hardcoded para 'http://127.0.0.1:8788', pode precisar de ajuste se o ambiente de desenvolvimento mudar.
-Backend (src/worker/index.ts): Ausência de rotas `PUT` e `DELETE` para `/api/settings/exceptions`, impedindo a atualização ou exclusão de exceções de horário do estabelecimento via API.
-Banco de Dados (migrations/15.sql): A função `get_professional_stats` criada na migração 15 não é utilizada no backend (`src/worker/index.ts`), sendo potencialmente código morto ou uma funcionalidade inacabada.
-Frontend/Tipos/DB (Services.tsx, types.ts, migrations/): Inconsistência total no campo `image_url` para Serviços.
+12 - Configuração (vite.config.ts): A configuração do proxy para API está hardcoded para 'http://127.0.0.1:8788', pode precisar de ajuste se o ambiente de desenvolvimento mudar.
+13 - Backend (src/worker/index.ts): Ausência de rotas `PUT` e `DELETE` para `/api/settings/exceptions`, impedindo a atualização ou exclusão de exceções de horário do estabelecimento via API.
+14 - Banco de Dados (migrations/15.sql): A função `get_professional_stats` criada na migração 15 não é utilizada no backend (`src/worker/index.ts`), sendo potencialmente código morto ou uma funcionalidade inacabada.
+15 - Frontend/Tipos/DB (Services.tsx, types.ts, migrations/): Inconsistência total no campo `image_url` para Serviços.
 Ele existe no frontend, mas falta no schema Zod (`ServiceSchema`) e na tabela `services` do banco de dados.
-Frontend (Geral): Uso misto de bibliotecas (`moment`) e funções nativas (`toLocaleString`) para formatação de datas, junto com o sistema de localização do PrimeReact, pode gerar inconsistências na exibição de datas/horas.
-Testes (src/test/): Cobertura de testes unitários limitada, não abrangendo lógica crucial das páginas, componentes complexos ou rotas do backend.
+16 - Frontend (Geral): Uso misto de bibliotecas (`moment`) e funções nativas (`toLocaleString`) para formatação de datas, junto com o sistema de localização do PrimeReact, pode gerar inconsistências na exibição de datas/horas.
+17 - Testes (src/test/): Cobertura de testes unitários limitada, não abrangendo lógica crucial das páginas, componentes complexos ou rotas do backend.
 Frontend/Formulário (ClientFormModal.tsx, types.ts): O campo opcional `birth_date` no `ClientSchema` está se comportando como obrigatório no formulário, possivelmente devido à interação entre PrimeReact `Calendar` e `react-hook-form` com valores nulos/vazios.
 
 --- NOVOS PROBLEMAS IDENTIFICADOS ---
 
-Frontend (`SupabaseAuthProvider.tsx`): Tela em branco potencial durante o carregamento inicial da sessão se houver falha ou lentidão na autenticação.
-Frontend (`ProfessionalDetail.tsx`): Busca de dados ineficiente ao mudar período de análise (recarrega todos os dados, não apenas agendamentos).
-Frontend (`store.ts`): Falhas na busca de dados na store são apenas registradas no console, não notificadas ao usuário (falhas silenciosas).
-Backend/Frontend (`Dashboard.tsx`): Lógica de criação/deleção de entrada financeira atrelada à presença do agendamento está no frontend, arriscando inconsistência de dados se uma das operações falhar.
-PWA (`sw.js`): Complexidade das estratégias de cache pode levar a dados obsoletos (stale) em cenários offline ou de rede instável sem notificação clara ao usuário.
-DB (Migrations 3 & 4): Possível redundância ou falta de clareza na ordem/conteúdo das migrações 3 e 4, dificultando o acompanhamento do histórico do schema.
-Frontend (`Layout.tsx`): Dependência do serviço externo `ui-avatars.com` para avatares fallback.
+18 - Frontend (`SupabaseAuthProvider.tsx`): Tela em branco potencial durante o carregamento inicial da sessão se houver falha ou lentidão na autenticação.
+19 - Frontend (`ProfessionalDetail.tsx`): Busca de dados ineficiente ao mudar período de análise (recarrega todos os dados, não apenas agendamentos).
+20 - Frontend (`store.ts`): Falhas na busca de dados na store são apenas registradas no console, não notificadas ao usuário (falhas silenciosas).
+21 - Backend/Frontend (`Dashboard.tsx`): Lógica de criação/deleção de entrada financeira atrelada à presença do agendamento está no frontend, arriscando inconsistência de dados se uma das operações falhar.
+22 - PWA (`sw.js`): Complexidade das estratégias de cache pode levar a dados obsoletos (stale) em cenários offline ou de rede instável sem notificação clara ao usuário.
+23 - DB (Migrations 3 & 4): Possível redundância ou falta de clareza na ordem/conteúdo das migrações 3 e 4, dificultando o acompanhamento do histórico do schema.
+24 - Frontend (`Layout.tsx`): Dependência do serviço externo `ui-avatars.com` para avatares fallback.
 
 --- NOVOS PROBLEMAS IDENTIFICADOS (NÃO INCLUÍDOS NO ARQUIVO ORIGINAL) ---
 
-Tratamento de Erros no Backend (src/worker/index.ts): Tratamento de erros de banco de dados mínimo; falhas podem não retornar erros claros ou travar rotas. Rotas PUT/DELETE podem retornar sucesso mesmo se o ID não for encontrado.
-Validação de Entrada Duplicada (src/worker/index.ts): Ausência de validação no backend para evitar nomes duplicados (clientes, produtos, serviços, profissionais) para o mesmo usuário.
-Segurança/Autorização (src/worker/index.ts): Garantir que *todas* as rotas que acessam recursos por ID (incluindo GET por ID, se existirem) incluam a verificação `user_id = ?`.
-Consistência de Nomenclatura no Backend (src/worker/index.ts): Pequenas inconsistências nos padrões de rotas (ex: financeiro vs. profissionais).
+25 - Tratamento de Erros no Backend (src/worker/index.ts): Tratamento de erros de banco de dados mínimo; falhas podem não retornar erros claros ou travar rotas. Rotas PUT/DELETE podem retornar sucesso mesmo se o ID não for encontrado.
+26 - Validação de Entrada Duplicada (src/worker/index.ts): Ausência de validação no backend para evitar nomes duplicados (clientes, produtos, serviços, profissionais) para o mesmo usuário.
+27 - Segurança/Autorização (src/worker/index.ts): Garantir que *todas* as rotas que acessam recursos por ID (incluindo GET por ID, se existirem) incluam a verificação `user_id = ?`.
+28 - Consistência de Nomenclatura no Backend (src/worker/index.ts): Pequenas inconsistências nos padrões de rotas (ex: financeiro vs. profissionais).
 Tipos vs. Banco de Dados (src/shared/types.ts, migrations/): Campos `work_start_time`, `work_end_time`, `lunch_start_time`, `lunch_end_time` existem na tabela `professionals` (migração 12) mas faltam no `ProfessionalSchema` em `types.ts`.
-Gerenciamento de Estado (Zustand - src/shared/store.ts): Funções `fetch*` podem deixar o estado de `loading` como `true` indefinidamente se ocorrer um erro durante a busca, pois `setLoading(false)` só é chamado em caso de sucesso. Usar `finally`.
-Service Worker (public/sw.js): Estratégia `staleWhileRevalidate` pode servir conteúdo desatualizado silenciosamente se a atualização falhar. Função `doBackgroundSync` vazia (funcionalidade não implementada). Tratamento de erros de cache apenas loga no console.
-Configuração do PrimeReact (src/react-app/main.tsx): Tema `lara-light-indigo` importado pode conflitar com o sistema de temas Tailwind/CSS Variables. Idealmente usar tema "unstyled" ou garantir overrides completos.
-Uso de Dependências (package.json, código): Uso de `moment.js` (em manutenção) junto com `date-fns`. Considerar padronizar para `date-fns` ou API `Intl` nativa. Verificar versões das dependências.
-Acessibilidade: Revisão completa de acessibilidade (atributos ARIA, contraste de cores nos temas, navegação por teclado) provavelmente necessária.
-Código Morto/Inacabado: Função SQL `get_professional_stats` não utilizada (item 24 dos problemas originais). Verificar por outros códigos não utilizados.
+29 - Gerenciamento de Estado (Zustand - src/shared/store.ts): Funções `fetch*` podem deixar o estado de `loading` como `true` indefinidamente se ocorrer um erro durante a busca, pois `setLoading(false)` só é chamado em caso de sucesso. Usar `finally`.
+30 - Service Worker (public/sw.js): Estratégia `staleWhileRevalidate` pode servir conteúdo desatualizado silenciosamente se a atualização falhar. Função `doBackgroundSync` vazia (funcionalidade não implementada). Tratamento de erros de cache apenas loga no console.
+31 - Configuração do PrimeReact (src/react-app/main.tsx): Tema `lara-light-indigo` importado pode conflitar com o sistema de temas Tailwind/CSS Variables. Idealmente usar tema "unstyled" ou garantir overrides completos.
+32 - Uso de Dependências (package.json, código): Uso de `moment.js` (em manutenção) junto com `date-fns`. Considerar padronizar para `date-fns` ou API `Intl` nativa. Verificar versões das dependências.
+33 - Acessibilidade: Revisão completa de acessibilidade (atributos ARIA, contraste de cores nos temas, navegação por teclado) provavelmente necessária.
+34 - Código Morto/Inacabado: Função SQL `get_professional_stats` não utilizada (item 24 dos problemas originais). Verificar por outros códigos não utilizados.
+
